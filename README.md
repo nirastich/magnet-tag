@@ -57,9 +57,9 @@ Text, font, size, margins, rounded corners, magnet placement, and text style are
 
 You can view or edit the code directly at the following links:
 
-- Pastebin: [https://pb.73.nu/magnet-nametag](https://pb.73.nu/magnet-nametag)
-- Fork: [https://pb.73.nu/magnet-nametag/fork](https://pb.73.nu/magnet-nametag/fork)
-- Preview (using https://ochafik.com): [https://pb.73.nu/magnet-nametag/view](https://pb.73.nu/magnet-nametag/view)
+- Pastebin: [https://pb.73.nu/magnet-tag](https://pb.73.nu/magnet-tag)
+- Fork: [https://pb.73.nu/magnet-tag/fork](https://pb.73.nu/magnet-tag/fork)
+- Preview (using https://ochafik.com): [https://pb.73.nu/magnet-tag/view](https://pb.73.nu/magnet-tag/view)
 
 ## License
 

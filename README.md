@@ -1,6 +1,6 @@
-# Magnet Nametag Generator
+# Magnet-Tag Generator
 
-A customizable OpenSCAD generator for magnetic nametags.  
+A customizable OpenSCAD generator for magnetic tags.  
 Text, font, size, margins, rounded corners, magnet placement, and text style are fully parametric.
 
 ## Features
@@ -17,7 +17,7 @@ Text, font, size, margins, rounded corners, magnet placement, and text style are
 ## Usage
 
 > *Online*
->1. Go to the [Makerworld model page](https://makerworld.com/models/XXXXXXX)
+>1. Go to the [Makerworld model page](https://makerworld.com/de/models/2419523)
 >2. Click on "Customize"
 
 > *Local*

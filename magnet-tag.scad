@@ -1,5 +1,5 @@
 /*
-    Nametag Generator
+    Magnet-Tag Generator
     ------------------------
     https://github.com/nirastich/magnet-tag
  
@@ -25,7 +25,7 @@ text_size = 10; // [0.1:0.1:25]
 // Cut text into tag instead of extruding out
 text_invert = false; // [true, false]
 // Text depth (mm)
-text_depth = 0.2; // [0.1:0.1:3]
+text_depth = 0.4; // [0.1:0.1:3]
 // Margin (mm)
 margin = 3; // [0:0.1:10]
 // Radius of tag corners (mm)
@@ -34,6 +34,8 @@ tag_radius = 3; // [0:0.1:5]
 magnet_diameter = 6; // [1:0.5:20]
 // Magnet height (mm)
 magnet_height = 2; // [1:0.1:10]
+// Magnet tolerance (mm)
+magnet_tolerance = 0.4; // [0:0.05:1]
 
 /* [Advanced] */
 
@@ -60,9 +62,12 @@ font = bold
 function text_width(str, size = 10, factor = 0.6) =
     len(str) * size * factor;
 
+magnet_height_tol = magnet_height + 0.1;
+magnet_diameter_tol = magnet_diameter + magnet_tolerance;
+
 tag_width  = text_width(input, text_size, font_factor) + margin * 2;
 tag_height = text_size + margin * 2;
-tag_depth  = text_invert ? magnet_height + magnet_under + magnet_above + text_depth : magnet_height + magnet_under + magnet_above;
+tag_depth  = text_invert ? magnet_height_tol + magnet_under + magnet_above + text_depth : magnet_height_tol + magnet_under + magnet_above;
 
 eps = 0.01;
 
@@ -110,21 +115,28 @@ module rounded_box(w, h, d, r) {
 }
 
 module magnet_holes() {
-    usable_width  = tag_width - magnet_diameter * 2;
-    holes_per_side = max(1, floor(usable_width / 2 / magnet_max_spacing));
-    spacing        = usable_width / 2 / holes_per_side;
+    min_spacing = magnet_diameter_tol;
+    usable_width = tag_width - magnet_diameter_tol * 2;
 
-    magnet_hole();
-    for (n = [1:holes_per_side]) {
-        translate([ n * spacing, 0, 0]) magnet_hole();
-        translate([-n * spacing, 0, 0]) magnet_hole();
+    total_needed = max(1, floor(usable_width / magnet_max_spacing) + 1);
+    total_fits = max(1, floor(usable_width / min_spacing) + 1);
+
+    total = min(total_needed, total_fits);
+
+    if (total <= 1) {
+        magnet_hole();
+    } else {
+        spacing = usable_width / (total - 1);
+        for (i = [0 : total - 1])
+            translate([i * spacing - usable_width / 2, 0, 0])
+                magnet_hole();
     }
 }
 
 module magnet_hole() {
-    translate([0, 0, magnet_height / 2 - tag_depth / 2 + magnet_under])
-        cylinder(magnet_height, d = magnet_diameter, center = true, $fn = 50);
+    translate([0, 0, (magnet_height_tol) / 2 - tag_depth / 2 + magnet_under])
+        cylinder(magnet_height_tol, d = magnet_diameter_tol, center = true, $fn = 50);
     // Visual indicator for magnets
     %translate([0, 0, magnet_under / 2 - tag_depth / 2 - eps])
-        cylinder(magnet_under, d = magnet_diameter, center = true, $fn = 50);
+        cylinder(magnet_under, d = magnet_diameter_tol, center = true, $fn = 50);
 }
